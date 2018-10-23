@@ -32,6 +32,9 @@ public class JumpPlayer : MonoBehaviour
         Jump();
     }
 
+    /// <summary>
+    /// If the player presses the jump button down and the ground check returns true, the rigidbody gets upward force
+    /// </summary>
     void Jump()
     {
         //if (rigidbody.velocity.y < 0)
@@ -50,6 +53,10 @@ public class JumpPlayer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Raycasts downwards and looks for anything on the ground layer. If nothing, it returns false
+    /// </summary>
+    /// <returns></returns>
     private bool isOnGround()
     {
         if (Physics.Raycast(transform.position, Vector2.down, GetComponent<Renderer>().bounds.extents.y + .1f, ground))

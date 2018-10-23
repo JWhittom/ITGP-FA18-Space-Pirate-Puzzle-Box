@@ -28,21 +28,29 @@ public class MovePlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
-       // if (canMove)
-       // {
+       if (canMove)
+       {
             Move();        
-        //}
+        }
     }
 
+    /// <summary>
+    /// Simple input get function. Just gets the input axis value
+    /// </summary>
     void GetInput()
     {
         horizontalAxisValue = Input.GetAxis(horizontalAxisName);//stores my input for each update
         verticalAxisValue = Input.GetAxis(verticalAxisName);
     }
 
+
+    /// <summary>
+    /// Creates a vector based off of the input values and our speed multiplier and applies to the Transform
+    /// </summary>
     private void Move()
     {
         MoveVector = new Vector3(horizontalAxisValue * speed * Time.deltaTime, 0, verticalAxisValue * speed * Time.deltaTime);
         transform.Translate(MoveVector);
     }
+
 }
