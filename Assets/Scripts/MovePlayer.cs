@@ -6,9 +6,11 @@ using UnityEngine;
 public class MovePlayer : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("The axis of left and right movement. Right now, the name is just Horizontal, but that can change if we want to use a controller too.")]
     private string horizontalAxisName;
 
     [SerializeField]
+    [Tooltip("The axis of vertical movement. Right now the name is Vertical, but we can change that if we want to use a controller too.")]
     private string verticalAxisName;
 
     [SerializeField]
@@ -18,7 +20,7 @@ public class MovePlayer : MonoBehaviour
     private float verticalAxisValue;
 
     RaycastHit rayHit;
-    private bool canMove;
+    private bool canMove = true;//change this later. Maybe make a bool that returns true only if other states are true; This should work with the state manager if we have one
     private Vector3 MoveVector;
 
     void Update()
