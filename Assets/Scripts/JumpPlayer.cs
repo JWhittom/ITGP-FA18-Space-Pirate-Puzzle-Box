@@ -14,9 +14,11 @@ public class JumpPlayer : MonoBehaviour
     private float jumpHeight;
 
     [SerializeField]
+    [Tooltip("Turn off gravity and let this variable represent the amount of gravity that acts upon this object.")]
     private float normalGravityMultiplier;//gravity on the way up
 
     [SerializeField]
+    [Tooltip("Turn off gravity and let this variable represent how much gravity acts on this object when it's falling")]
     private float fallMultiplier;//gravity on the way down
 
 
@@ -27,8 +29,7 @@ public class JumpPlayer : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
     }
     void Update ()
-    {
-        Debug.Log("On ground is: " + isOnGround().ToString());
+    {      
         Jump();
     }
 
@@ -37,18 +38,17 @@ public class JumpPlayer : MonoBehaviour
     /// </summary>
     void Jump()
     {
-        //if (rigidbody.velocity.y < 0)
-        //{
-        //    rigidbody.gravityScale = fallMultiplier;//this controls how fast the player falls
-        //}
-        //else
-        //{
-        //    rigidbody.gravityScale = normalGravityMultiplier;
-        //}
+        if (Mathf.Floor(rigidbody.velocity.y) <= 0 && !isOnGround())//if we're in the air either falling or at the top of our jump
+        {
+            rigidbody.AddForce(Vector3.down * fallMultiplier);
+        }
+        else
+        {
+            rigidbody.AddForce(Vector3.down * normalGravityMultiplier);
+        }
 
         if (Input.GetButtonDown(jumpButtonName) && isOnGround())//if we on ground and we can jump
         {
-            Debug.Log("trying to jump");
             rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
         }
     }
