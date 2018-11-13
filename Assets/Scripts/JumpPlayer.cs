@@ -59,7 +59,7 @@ public class JumpPlayer : MonoBehaviour
     /// <returns></returns>
     private bool isOnGround()
     {
-        if (Physics.Raycast(transform.position, Vector2.down, GetComponent<Renderer>().bounds.extents.y + .1f, ground))
+        if (Physics.Raycast(transform.position, Vector2.down, /*GetComponent<Renderer>().bounds.extents.y + */.1f, ground))
         {
             return true;
         }

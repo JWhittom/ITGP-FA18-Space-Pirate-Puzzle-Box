@@ -33,7 +33,7 @@ public class RoomPivot : MonoBehaviour
 
     private void PivotRoom()
     {
-        level.transform.Rotate(Vector3.forward * -90, Space.World);
+        level.transform.Rotate(Vector3.back * 90, Space.World);
     }
 
     private void GetPivotInput()
