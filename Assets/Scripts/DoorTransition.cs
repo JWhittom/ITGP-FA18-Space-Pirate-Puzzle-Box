@@ -25,34 +25,40 @@ public class DoorTransition : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player" && !doorUsed)
-            RotateRoom(collision.gameObject);
+            StartCoroutine(RotateRoom(collision.gameObject));
     }
 
-    private void RotateRoom(GameObject player)
+    private IEnumerator RotateRoom(GameObject player)
     {
+        doorUsed = true;
         Vector3 rotationDirection = CalculateRotation();
-        Debug.Log(rotationDirection);
+        Quaternion playerRotation = player.transform.rotation;
         player.transform.parent = level.transform;
-        level.transform.Rotate(rotationDirection * 90, Space.World);
+        int degreesRotated = 0, degreesPerFrame = 3;
+        while (degreesRotated < 90)
+        {
+            level.transform.Rotate(rotationDirection * degreesPerFrame, Space.World);
+            degreesRotated += degreesPerFrame;
+            yield return null;
+        }
         player.transform.parent = null;
         player.transform.position = playerSetPoint.position;
-        player.transform.rotation = playerSetPoint.rotation;
-        doorUsed = true;
+        player.transform.rotation = playerRotation;
     }
 
     private Vector3 CalculateRotation()
     {
-        Vector3 rotationDirection = Vector3.Normalize(transform.position - rotationPoint.position);
-        if(rotationDirection.x != 0)
+        Vector3 rotationDirection = transform.position - rotationPoint.position;
+        if (Mathf.Abs(rotationDirection.x) > Mathf.Abs(rotationDirection.y))
         {
-            rotationDirection.y = rotationDirection.x;
+            rotationDirection.y = Mathf.Abs(rotationDirection.x);
             rotationDirection.x = 0;
         }
-        else if(rotationDirection.y != 0)
+        else
         {
-            rotationDirection.x = rotationDirection.y;
+            rotationDirection.x = Mathf.Abs(rotationDirection.y);
             rotationDirection.y = 0;
         }
-        return rotationDirection;
+        return Vector3.Normalize(rotationDirection);
     }
 }

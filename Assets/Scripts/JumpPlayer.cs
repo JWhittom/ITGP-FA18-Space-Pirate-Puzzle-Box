@@ -21,6 +21,10 @@ public class JumpPlayer : MonoBehaviour
     [Tooltip("Turn off gravity and let this variable represent how much gravity acts on this object when it's falling")]
     private float fallMultiplier;//gravity on the way down
 
+    [SerializeField]
+    [Tooltip("Origin of ground detect sphere.")]
+    private Transform groundDetectPoint;
+
 
     private Rigidbody rigidbody;
 
@@ -59,11 +63,13 @@ public class JumpPlayer : MonoBehaviour
     /// <returns></returns>
     private bool isOnGround()
     {
-        if (Physics.Raycast(transform.position, Vector2.down, /*GetComponent<Renderer>().bounds.extents.y + */.1f, ground))
-        {
-            return true;
-        }
+        //Debug.DrawRay(transform.position, Vector3.down * 2);
+        //if (Physics.Raycast(transform.position, Vector2.down, /*GetComponent<Renderer>().bounds.extents.y + */2f, ground))
+        //{
+        //    return true;
+        //}
 
-        else return false;
+        //else return false;
+        return Physics.OverlapSphere(groundDetectPoint.position, .5f, ground).Length > 0;
     }
 }
