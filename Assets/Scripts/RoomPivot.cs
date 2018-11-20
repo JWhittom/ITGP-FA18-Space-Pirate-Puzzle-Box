@@ -49,20 +49,25 @@ public class RoomPivot : MonoBehaviour
 
     private IEnumerator PivotRoom()
     {
-        //float currentWorldAngle = level.transform.rotation.eulerAngles.z;
-        //Debug.Log(currentWorldAngle);
+        // Variables to track rotation per frame and stop the loop when necessary
+        // degreesPerFrame must be a factor of 90 if it's modified
         int degreesRotated = 0, degreesPerFrame = 3;
+        // Remove the platform from the level transform so it stays in place while the level rotates
         transform.parent = null;
+        // Prevent the coroutine from running multiple times at once
         spinning = true;
         while (degreesRotated < 90)
         {
-            //levelAnimator.Play("PivotCounterClockwise");
+            // Rotate counterclockwise by so many degrees per frame in world space
+            // Being in world space gives the rotation the same visible effect regardless of the level's local rotation
             level.transform.Rotate(Vector3.forward * degreesPerFrame, Space.World);
+            // Add to the degrees rotated so the loop stops at 90 degrees
             degreesRotated += degreesPerFrame;
             yield return null;
-            //Debug.Log(level.transform.rotation.z);
         }
+        // Allow the coroutine to happen again later
         spinning = false;
+        // Set the parent again; the platform will once again move with the level
         transform.parent = level.transform;
         
     }
